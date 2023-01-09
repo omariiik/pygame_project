@@ -7,3 +7,5 @@ class Wall(pygame.sprite.Sprite):
         self.wall = pygame.image.load("data/стена.png").convert_alpha()
         self.image = self.wall
         self.rect = self.wall.get_rect()
+        self.rect.x = x
+        self.rect.y = y
