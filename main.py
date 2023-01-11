@@ -3,7 +3,8 @@ from board import Board
 from tank import Tank
 from game_map import map_board
 from wall import Wall
-FPS = 60
+from tank2 import Tank2
+FPS = 30
 SPEED = 20
 
 if __name__ == '__main__':
@@ -25,6 +26,15 @@ if __name__ == '__main__':
                 obj = Wall(j * 65, i * 65)
                 wall_sprites.add(obj)
 
+    for i in range(len(map_board)):
+        for j in range(len(map_board)):
+            if map_board[i][j] == 1:
+                player2 = Tank2(j * 65, i * 65)
+                all_sprites.add(player2)
+            if map_board[i][j] == 2:
+                obj = Wall(j * 65, i * 65)
+                wall_sprites.add(obj)
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -42,6 +52,18 @@ if __name__ == '__main__':
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_d:
                     player.move(1, 0, player.number_cell())
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_i:
+                    player2.move(0, -1, player.number_cell())
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_k:
+                    player2.move(0, 1, player.number_cell())
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_j:
+                    player2.move(-1, 0, player.number_cell())
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_l:
+                    player2.move(1, 0, player.number_cell())
         screen.blit(bg, (0, 0))
         all_sprites.update()
         all_sprites.draw(screen)
