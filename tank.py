@@ -1,6 +1,7 @@
 import pygame
 from game_map import map_board
-
+from sprites_groups import bullet_group
+from bullet import Bullet
 
 class Tank(pygame.sprite.Sprite):
     # score_sound = pygame.mixer.Sound(get_path('дорога к звуку'))
@@ -15,8 +16,11 @@ class Tank(pygame.sprite.Sprite):
         self.rect.y = y
         self.score = 0
         self.back = False
+        self.health = 100
+        self.damage = 25
         self.x = 0
         self.y = 0
+        self.past_click = (0, -1)
         # self.score_sound.set_volume(0.2)
 
     def update(self, *args):
@@ -91,6 +95,32 @@ class Tank(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1] - 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
+    def shot(self):
+        if self.number_cell()[0] == 0 and self.past_click[0] == -1:
+            return
+        if self.number_cell()[0] == 9 and self.past_click[0] == 1:
+            return
+        if self.number_cell()[1] == 0 and self.past_click[1] == -1:
+            return
+        if self.number_cell()[1] == 9 and self.past_click[1] == 1:
+            return
+        if self.past_click[0] == 0 and self.past_click[1] == -1:
+            bullet_group.add(Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1))
+        if self.past_click[0] == 0 and self.past_click[1] == 1:
+            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1)
+            obj.image = pygame.transform.rotate(obj.image_copy, 180)
+            bullet_group.add(obj)
+        if self.past_click[0] == 1 and self.past_click[1] == 0:
+            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0)
+            obj.image = pygame.transform.rotate(obj.image_copy, -90)
+            bullet_group.add(obj)
+        if self.past_click[0] == -1 and self.past_click[1] == 0:
+            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0)
+            obj.image = pygame.transform.rotate(obj.image_copy, 90)
+            bullet_group.add(obj)
+
+
 
     def number_cell(self):
         return self.rect.x // 65, self.rect.y // 65

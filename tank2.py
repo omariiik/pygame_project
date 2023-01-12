@@ -5,11 +5,13 @@ from game_map import map_board
 class Tank2(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.tank2 = pygame.image.load("data/tank2.png").convert_alpha()
+        self.tank2 = pygame.image.load("data/противник.png").convert_alpha()
         self.tank2_left = pygame.transform.flip(self.tank2, True, False) # танк перевёрнутый
         self.image = self.tank2
         self.image_copy = self.image
         self.rect = self.tank2.get_rect()
+        self.health = 100
+        self.damage = 25
         self.rect.x = x
         self.rect.y = y
         self.score = 0
