@@ -1,5 +1,9 @@
 import pygame
 from game_map import map_board
+from bullet import Bullet
+from sprites_groups import bullet_group
+from bot_brain import random_brain
+import time
 
 
 class Tank2(pygame.sprite.Sprite):
@@ -16,8 +20,12 @@ class Tank2(pygame.sprite.Sprite):
         self.rect.y = y
         self.score = 0
         self.back = False
+        self.past_click = (0, -1)
         self.x = 0
         self.y = 0
+        self.brain = 'random'
+        self.start_time = time.time()
+        self.past_move = 0
 
     def update(self, *args):
         if self.x == 1:
@@ -47,6 +55,7 @@ class Tank2(pygame.sprite.Sprite):
             self.y = y
             self.start_pos = start_pos
             if self.x == 1 and self.y == 0:
+                self.past_click = (1, 0)
                 self.image = pygame.transform.rotate(self.image_copy, -90)
                 if self.number_cell()[0] == 9:
                     self.x = 0
@@ -55,7 +64,9 @@ class Tank2(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1]][self.start_pos[0] + 1] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
             elif self.x == -1 and self.y == 0:
+                self.past_click = (-1, 0)
                 self.image = pygame.transform.rotate(self.image_copy, 90)
                 if self.number_cell()[0] == 0:
                     self.x = 0
@@ -64,7 +75,9 @@ class Tank2(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1]][self.start_pos[0] - 1] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
             elif self.x == 0 and self.y == 1:
+                self.past_click = (0, 1)
                 self.image = pygame.transform.rotate(self.image_copy, 180)
                 if self.number_cell()[1] == 9:
                     self.y = 0
@@ -73,7 +86,9 @@ class Tank2(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1] + 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
             elif self.x == 0 and self.y == -1:
+                self.past_click = (0, -1)
                 self.image = self.image_copy
                 if self.number_cell()[1] == 0:
                     self.y = 0
@@ -83,9 +98,42 @@ class Tank2(pygame.sprite.Sprite):
                     map_board[self.start_pos[1] - 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 
+
+    def shot(self):
+        if self.number_cell()[0] == 0 and self.past_click[0] == -1:
+            return
+        if self.number_cell()[0] == 9 and self.past_click[0] == 1:
+            return
+        if self.number_cell()[1] == 0 and self.past_click[1] == -1:
+            return
+        if self.number_cell()[1] == 9 and self.past_click[1] == 1:
+            return
+        if self.past_click[0] == 0 and self.past_click[1] == -1:
+            obj = Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1, 'opponent')
+            obj.op_dmg = self.damage
+            bullet_group.add(obj)
+        if self.past_click[0] == 0 and self.past_click[1] == 1:
+            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1, 'opponent')
+            obj.op_dmg = self.damage
+            obj.image = pygame.transform.rotate(obj.image_copy, 180)
+            bullet_group.add(obj)
+        if self.past_click[0] == 1 and self.past_click[1] == 0:
+            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0, 'opponent')
+            obj.op_dmg = self.damage
+            obj.image = pygame.transform.rotate(obj.image_copy, -90)
+            bullet_group.add(obj)
+        if self.past_click[0] == -1 and self.past_click[1] == 0:
+            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0, 'opponent')
+            obj.op_dmg = self.damage
+            obj.image = pygame.transform.rotate(obj.image_copy, 90)
+            bullet_group.add(obj)
+
     def number_cell(self):
         return self.rect.x // 65, self.rect.y // 65
 
     def up_score(self): # рекорд
-        self.score += 1
-        # self.score_sound.play() # звук рекорда (потом сделаем)
+        self.score += 1     # sound.play() # звук рекорда (потом сделаем)
+
+    def bot_brain(self):
+        if self.brain == 'random':
+            random_brain(self)

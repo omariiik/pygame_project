@@ -1,38 +1,15 @@
 import pygame
 import random
+from sprites_groups import bullet_group
+from sprites_groups import player_sprite
 
 # показать одну и ту же картинку 25 раз
-class Particle(pygame.sprite.Sprite):
-    fire = [pygame.image.load("data/противник.png").convert_alpha()]
-    for scale in (5, 10, 20):
-        fire.append(pygame.transform.scale(fire[0], (scale, scale)))
-
-    def __init__(self, pos, dx, dy):
-        super().__init__(all_sprites)
-        self.image = random.choice(self.fire)
-        self.rect = self.image.get_rect()
-        self.velocity = [dx, dy]
-        self.rect.x, self.rect.y = pos
-        self.gravity = GRAVITY  # нужен констант с гравитации
-
-    def update(self):
-        self.velocity[1] += self.gravity
-        self.rect.x += self.velocity[0]
-        self.rect.y += self.velocity[1]
-        if not self.rect.colliderect(screen_rect):
-            self.kill()
-
-    def create_particles(position):
-        particle_count = 25
-        numbers = range(-5, 6)
-        for _ in range(particle_count):
-            Particle(position, random.choice(numbers), random.choice(numbers))
 
 
 # анимация
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, sheet, columns, rows, x, y):
-        super().__init__(all_sprites)
+        super().__init__(player_sprite)
         self.frames = []
         self.cut_sheet(sheet, columns, rows)
         self.cur_frame = 0
@@ -52,4 +29,4 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
 
-BoOm = AnimatedSprite(pygame.image.load("взрыв.png"), 4, 2, 50, 50)
+BoOm = AnimatedSprite(pygame.image.load("data/взрыв.jpg"), 4, 2, 50, 50)

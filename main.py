@@ -40,19 +40,15 @@ if __name__ == '__main__':
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     player.move(0, -1, player.number_cell())
-                    player.past_click = (0, -1)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     player.move(0, 1, player.number_cell())
-                    player.past_click = (0, 1)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     player.move(-1, 0, player.number_cell())
-                    player.past_click = (-1, 0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_d:
                     player.move(1, 0, player.number_cell())
-                    player.past_click = (1, 0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.shot()
@@ -76,5 +72,7 @@ if __name__ == '__main__':
         bullet_group.update(player)
         bullet_group.draw(screen)
         wall_sprites.draw(screen)
+        for i in opponents_sprites:
+            i.bot_brain()
         pygame.display.flip()
     pygame.quit()

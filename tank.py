@@ -60,6 +60,7 @@ class Tank(pygame.sprite.Sprite):
             self.y = y
             self.start_pos = start_pos
             if self.x == 1 and self.y == 0:
+                self.past_click = (1, 0)
                 self.image = pygame.transform.rotate(self.image_copy, -90)
                 if self.number_cell()[0] == 9:
                     self.x = 0
@@ -68,7 +69,9 @@ class Tank(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1]][self.start_pos[0] + 1] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
             elif self.x == -1 and self.y == 0:
+                self.past_click = (-1, 0)
                 self.image = pygame.transform.rotate(self.image_copy, 90)
                 if self.number_cell()[0] == 0:
                     self.x = 0
@@ -77,7 +80,9 @@ class Tank(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1]][self.start_pos[0] - 1] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
             elif self.x == 0 and self.y == 1:
+                self.past_click = (0, 1)
                 self.image = pygame.transform.rotate(self.image_copy, 180)
                 if self.number_cell()[1] == 9:
                     self.y = 0
@@ -86,7 +91,9 @@ class Tank(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1] + 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
             elif self.x == 0 and self.y == -1:
+                self.past_click = (0, -1)
                 self.image = self.image_copy
                 if self.number_cell()[1] == 0:
                     self.y = 0
@@ -95,6 +102,7 @@ class Tank(pygame.sprite.Sprite):
                 else:
                     map_board[self.start_pos[1] - 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
+
 
     def shot(self):
         if self.number_cell()[0] == 0 and self.past_click[0] == -1:
@@ -106,17 +114,17 @@ class Tank(pygame.sprite.Sprite):
         if self.number_cell()[1] == 9 and self.past_click[1] == 1:
             return
         if self.past_click[0] == 0 and self.past_click[1] == -1:
-            bullet_group.add(Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1))
+            bullet_group.add(Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1, 'player'))
         if self.past_click[0] == 0 and self.past_click[1] == 1:
-            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1)
+            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1, 'player')
             obj.image = pygame.transform.rotate(obj.image_copy, 180)
             bullet_group.add(obj)
         if self.past_click[0] == 1 and self.past_click[1] == 0:
-            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0)
+            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0, 'player')
             obj.image = pygame.transform.rotate(obj.image_copy, -90)
             bullet_group.add(obj)
         if self.past_click[0] == -1 and self.past_click[1] == 0:
-            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0)
+            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0, 'player')
             obj.image = pygame.transform.rotate(obj.image_copy, 90)
             bullet_group.add(obj)
 
