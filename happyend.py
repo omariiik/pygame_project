@@ -1,5 +1,5 @@
 import pygame
-from main import screen
+# from main import screen
 pygame.init()
 
 def show_go_screen():

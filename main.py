@@ -9,7 +9,7 @@ from sprites_groups import player_sprite
 from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
 from sprites_groups import bullet_group
-
+from sprites_groups import Flag
 
 FPS = 30
 SPEED = 20
@@ -21,6 +21,9 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(size)
     bg = pygame.image.load("data/пол.png")
     board = Board(10, 10)
+    start = False
+    start_photo = pygame.image.load("data/gameover.png")
+    end_photo = pygame.image.load("data/gameover.png")
 
     for i in range(len(map_board)):
         for j in range(len(map_board)):
@@ -39,6 +42,9 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    start = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     player.move(0, -1, player.number_cell())
@@ -76,5 +82,9 @@ if __name__ == '__main__':
         wall_sprites.draw(screen)
         for i in opponents_sprites:
             i.bot_brain()
+        if not start:
+            screen.blit(start_photo, (0, 0))
+        if Flag:
+            screen.blit(end_photo, (0, 0))
         pygame.display.flip()
     pygame.quit()
