@@ -9,6 +9,8 @@ from sprites_groups import player_sprite
 from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
 from sprites_groups import bullet_group
+
+
 FPS = 30
 SPEED = 20
 

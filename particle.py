@@ -3,10 +3,7 @@ import random
 from sprites_groups import bullet_group
 from sprites_groups import player_sprite
 
-# показать одну и ту же картинку 25 раз
 
-
-# анимация
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, sheet, columns, rows, x, y):
         super().__init__(player_sprite)

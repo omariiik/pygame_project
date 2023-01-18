@@ -3,6 +3,7 @@ from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
 from game_map import map_board
 from sprites_groups import player_sprite
+from happyend import show_go_screen
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, px, py, x, y, name):
@@ -35,7 +36,7 @@ class Bullet(pygame.sprite.Sprite):
                 player.health -= self.op_dmg
             if player.health <= 0:
                 player.kill()
-                #конечное окно
+                show_go_screen()
                 pass
             if self.name == 'opponent':
                 self.kill()
