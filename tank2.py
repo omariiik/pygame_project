@@ -26,6 +26,7 @@ class Tank2(pygame.sprite.Sprite):
         self.brain = 'random'
         self.start_time = time.time()
         self.past_move = 0
+        self.pos = ()
 
     def update(self, *args):
         if self.x == 1:
@@ -62,6 +63,7 @@ class Tank2(pygame.sprite.Sprite):
                 elif self.start_pos[0] < 9 and not(map_board[self.start_pos[1]][self.start_pos[0] + 1] == 0):
                     self.x = 0
                 else:
+                    self.pos = (self.start_pos[1], self.start_pos[0] + 1)
                     map_board[self.start_pos[1]][self.start_pos[0] + 1] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 
@@ -73,6 +75,7 @@ class Tank2(pygame.sprite.Sprite):
                 elif self.start_pos[0] > 0 and not(map_board[self.start_pos[1]][self.start_pos[0] - 1] == 0):
                     self.x = 0
                 else:
+                    self.pos = (self.start_pos[1], self.start_pos[0] - 1)
                     map_board[self.start_pos[1]][self.start_pos[0] - 1] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 
@@ -84,6 +87,7 @@ class Tank2(pygame.sprite.Sprite):
                 elif self.start_pos[1] < 9 and not(map_board[self.start_pos[1] + 1][self.start_pos[0]] == 0):
                     self.y = 0
                 else:
+                    self.pos = (self.start_pos[1] + 1, self.start_pos[0])
                     map_board[self.start_pos[1] + 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 
@@ -95,6 +99,7 @@ class Tank2(pygame.sprite.Sprite):
                 elif self.start_pos[1] > 0 and not(map_board[self.start_pos[1] - 1][self.start_pos[0]] == 0):
                     self.y = 0
                 else:
+                    self.pos = (self.start_pos[1] - 1, self.start_pos[0])
                     map_board[self.start_pos[1] - 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 

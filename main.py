@@ -75,16 +75,19 @@ if __name__ == '__main__':
         screen.blit(bg, (0, 0))
         player_sprite.update()
         player_sprite.draw(screen)
-        opponents_sprites.update()
-        opponents_sprites.draw(screen)
         bullet_group.update(player)
         bullet_group.draw(screen)
+        opponents_sprites.update()
+        opponents_sprites.draw(screen)
+
         wall_sprites.draw(screen)
         for i in opponents_sprites:
             i.bot_brain()
-        if not start:
-            screen.blit(start_photo, (0, 0))
-        if Flag:
-            screen.blit(end_photo, (0, 0))
+        #if start:
+            #screen.blit(start_photo, (0, 0))
+        #if flag:
+            #screen.blit(end_photo, (0, 0))
+          #  pass
+
         pygame.display.flip()
     pygame.quit()

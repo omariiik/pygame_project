@@ -105,6 +105,8 @@ class Tank(pygame.sprite.Sprite):
 
 
     def shot(self):
+        if self.health <= 0:
+            return
         if self.number_cell()[0] == 0 and self.past_click[0] == -1:
             return
         if self.number_cell()[0] == 9 and self.past_click[0] == 1:
