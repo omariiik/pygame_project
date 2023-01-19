@@ -79,7 +79,6 @@ if __name__ == '__main__':
         bullet_group.draw(screen)
         opponents_sprites.update()
         opponents_sprites.draw(screen)
-
         wall_sprites.draw(screen)
         for i in opponents_sprites:
             i.bot_brain()

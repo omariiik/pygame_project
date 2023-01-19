@@ -2,7 +2,9 @@ import pygame
 from game_map import map_board
 from bullet import Bullet
 from sprites_groups import bullet_group
+from sprites_groups import player_sprite
 from bot_brain import random_brain
+from bot_brain import logic
 import time
 
 
@@ -23,7 +25,7 @@ class Tank2(pygame.sprite.Sprite):
         self.past_click = (0, -1)
         self.x = 0
         self.y = 0
-        self.brain = 'random'
+        self.brain = 'logic'
         self.start_time = time.time()
         self.past_move = 0
         self.pos = ()
@@ -142,3 +144,7 @@ class Tank2(pygame.sprite.Sprite):
     def bot_brain(self):
         if self.brain == 'random':
             random_brain(self)
+        elif self.brain == 'logic':
+            if len(player_sprite.sprites()) == 1:
+                player = player_sprite.sprites()[0]
+                logic(self, player)
