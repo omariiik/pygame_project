@@ -82,7 +82,6 @@ class Tank2(pygame.sprite.Sprite):
             elif self.x == 0 and self.y == 1:
                 self.past_click = (0, 1)
                 self.image = pygame.transform.rotate(self.image_copy, 180)
-                print(self.start_pos[1] - 1, self.start_pos[0])
 
                 if self.number_cell()[1] == 9:
                     self.y = 0

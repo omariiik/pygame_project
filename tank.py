@@ -17,7 +17,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect.y = y
         self.score = 0
         self.back = False
-        self.health = 25
+        self.health = 100
         self.damage = 25
         self.x = 0
         self.y = 0
@@ -45,15 +45,6 @@ class Tank(pygame.sprite.Sprite):
                 self.y = 0
             else:
                 self.rect.y -= 1
-
-
-        # если танк выйдет за границу, то он будет переворачиваться и идти в обратную сторону
-        #if self.rect.x <= 585 and self.back:
-            #self.image = self.tank1
-       # if self.rect.x == 0 and self.back:
-          #  self.back = False
-      #  if self.rect.x == 585:
-          #  self.back = True
 
     def move(self, x, y, start_pos):
         if self.x == 0 and self.y == 0:

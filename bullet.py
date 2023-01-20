@@ -26,7 +26,6 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, opponents_sprites):
             if self.name == 'player':
                 pygame.sprite.spritecollideany(self, opponents_sprites).health -= player.damage
-                print(pygame.sprite.spritecollideany(self, opponents_sprites).health)
             if pygame.sprite.spritecollideany(self, opponents_sprites).health <= 0:
                 x, y = pygame.sprite.spritecollideany(self, opponents_sprites).pos
                 map_board[x][y] = 0
@@ -37,7 +36,6 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, player_sprite):
             if self.name == 'opponent':
                 player.health -= self.op_dmg
-                print('a')
                 self.kill()
             if player.health <= 0:
                 player.kill()

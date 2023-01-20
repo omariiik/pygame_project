@@ -14,6 +14,7 @@ from sprites_groups import Flag
 from play_client import play_client
 
 
+
 FPS = 30
 SPEED = 20
 
@@ -25,8 +26,8 @@ if __name__ == '__main__':
     bg = pygame.image.load("data/пол.png")
     board = Board(10, 10)
     game_time = time.time()
-    start_photo = pygame.image.load("data/gameover.png")
-    end_photo = pygame.image.load("data/end.png")
+    start_photo = pygame.image.load("data/startt.png")
+    end_photo = pygame.image.load("data/endd.png")
 
     for i in range(len(map_board)):
         for j in range(len(map_board)):
@@ -44,8 +45,9 @@ if __name__ == '__main__':
     count = 0
     running = True
     while running:
+
         if count == 0:
-            screen.blit(bg, (0, 0))
+            screen.blit(start_photo, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -66,7 +68,7 @@ if __name__ == '__main__':
                         logic = 'logic'
                         count += 1
 
-
+        screen.blit(start_photo, (0, 0))
         if flag == True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -115,6 +117,5 @@ if __name__ == '__main__':
             if len(player_sprite.sprites()) == 0:
                 screen.blit(end_photo, (0, 0))
 
-
-            pygame.display.flip()
+        pygame.display.flip()
     pygame.quit()
