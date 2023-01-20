@@ -5,7 +5,7 @@ from tank import Tank
 from game_map import map_board
 from wall import Wall
 from tank2 import Tank2
-from bullet import Bullet
+from bullet import point
 from sprites_groups import player_sprite
 from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
@@ -28,7 +28,6 @@ if __name__ == '__main__':
     game_time = time.time()
     start_photo = pygame.image.load("data/startt.png")
     end_photo = pygame.image.load("data/end.png")
-
     for i in range(len(map_board)):
         for j in range(len(map_board)):
             if map_board[i][j] == 1:
@@ -47,13 +46,13 @@ if __name__ == '__main__':
     p = 0
     while running:
         if count == 0:
-            screen.blit(start_photo, (0, 0))
             if p == 0:
                 hay.play()
                 p += 1
                 time.sleep(0.7)
                 pygame.mixer.music.load(marsh)
                 pygame.mixer.music.play(-1)
+            screen.blit(start_photo, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -74,8 +73,8 @@ if __name__ == '__main__':
                         logic = 'logic'
                         count += 1
 
-        screen.blit(start_photo, (0, 0))
-        if flag == True:
+                screen.blit(start_photo, (0, 0))
+        if flag is True:
             pygame.mixer.music.stop()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -123,7 +122,8 @@ if __name__ == '__main__':
             play_client(level)
             if len(player_sprite.sprites()) == 0:
                 screen.blit(end_photo, (0, 0))
-
-
+                font = pygame.font.Font(None, 50)
+                text = font.render(f"Your score: {point[0]} points!", True, (100, 255, 100))
+                screen.blit(text, (50, 50))
         pygame.display.flip()
     pygame.quit()

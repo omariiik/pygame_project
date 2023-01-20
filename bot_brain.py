@@ -95,7 +95,6 @@ def logic(obj, player):
             else:
                 obj.move(0, -1, obj.number_cell())
     if lumbago_y(obj.number_cell(), player) is False and lumbago_x(obj.number_cell(), player) is False:
-        #двигаемся по x и ищем прострел для y
         x, y = obj.number_cell()
         for i in range(x - 1, -1, -1):
             if map_board[y][i] != 0:
@@ -108,7 +107,6 @@ def logic(obj, player):
                 break
             if not(lumbago_y((i, y), player) is False):
                 obj.move(1, 0, obj.number_cell())
-        #двигаемся по y и ещем прострел для x
         for i in range(y - 1, -1, -1):
             if map_board[i][x] != 0:
                 break

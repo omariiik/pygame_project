@@ -24,6 +24,7 @@ class Tank2(pygame.sprite.Sprite):
         self.x = 0
         self.y = 0
         self.brain = 'random'
+        self.type = 'soldier'
         self.start_time = time.time()
         self.past_move = 0
         self.pos = (x // 65, y // 65)
@@ -104,7 +105,6 @@ class Tank2(pygame.sprite.Sprite):
                     map_board[self.start_pos[1] - 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 
-
     def shot(self):
         if self.number_cell()[0] == 0 and self.past_click[0] == -1:
             return
@@ -140,9 +140,6 @@ class Tank2(pygame.sprite.Sprite):
 
     def number_cell(self):
         return self.rect.x // 65, self.rect.y // 65
-
-    def up_score(self): # рекорд
-        self.score += 1     # sound.play() # звук рекорда (потом сделаем)
 
     def bot_brain(self):
         if self.brain == 'random':
