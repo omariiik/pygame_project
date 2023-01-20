@@ -1,4 +1,5 @@
 import pygame
+import time
 from board import Board
 from tank import Tank
 from game_map import map_board
@@ -10,6 +11,8 @@ from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
 from sprites_groups import bullet_group
 from sprites_groups import Flag
+from play_client import play_client
+
 
 FPS = 30
 SPEED = 20
@@ -21,9 +24,16 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(size)
     bg = pygame.image.load("data/пол.png")
     board = Board(10, 10)
-    start = False
+    game_time = time.time()
     start_photo = pygame.image.load("data/gameover.png")
     end_photo = pygame.image.load("data/gameover.png")
+    ####################################################
+    level = 3
+    if level == 1:
+        logic = 'random'
+    else:
+        logic = 'logic'
+    start = False
 
     for i in range(len(map_board)):
         for j in range(len(map_board)):
@@ -39,6 +49,16 @@ if __name__ == '__main__':
 
     running = True
     while running:
+
+        #получение данных из стартового окна и запись в level
+        #поднять флаг чтобы зайти в нижний if
+
+
+
+
+
+
+        #сделать if в котором будет все ниже:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -82,6 +102,9 @@ if __name__ == '__main__':
         wall_sprites.draw(screen)
         for i in opponents_sprites:
             i.bot_brain()
+        play_client(level)
+        if len(player_sprite.sprites()) == 0:
+            pass
         #if start:
             #screen.blit(start_photo, (0, 0))
         #if flag:

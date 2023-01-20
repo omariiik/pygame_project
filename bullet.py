@@ -1,12 +1,12 @@
 import pygame
 from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
-from game_map import map_board
+from generation_map import map_board
 from sprites_groups import player_sprite
 from sprites_groups import bullet_group
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, px, py, x, y, name):
+    def __init__(self, px, py, x, y, name, dad):
         pygame.sprite.Sprite.__init__(self)
         self.bullet = pygame.image.load("data/снаряд2.0.png").convert_alpha()
         self.image = self.bullet
@@ -15,6 +15,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = px, py
         self.x, self.y = x, y
         self.name = name
+        self.dad = dad
         self.op_dmg = 0
 
     def update(self, player):
@@ -25,15 +26,18 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, opponents_sprites):
             if self.name == 'player':
                 pygame.sprite.spritecollideany(self, opponents_sprites).health -= player.damage
+                print(pygame.sprite.spritecollideany(self, opponents_sprites).health)
             if pygame.sprite.spritecollideany(self, opponents_sprites).health <= 0:
                 x, y = pygame.sprite.spritecollideany(self, opponents_sprites).pos
                 map_board[x][y] = 0
                 pygame.sprite.spritecollideany(self, opponents_sprites).kill()
-            if self.name == 'player':
+            if self.name == 'player' or (self.name == 'opponent' and
+                                       not(pygame.sprite.spritecollideany(self, opponents_sprites) is self.dad)):
                 self.kill()
         if pygame.sprite.spritecollideany(self, player_sprite):
             if self.name == 'opponent':
                 player.health -= self.op_dmg
+                print('a')
                 self.kill()
             if player.health <= 0:
                 player.kill()

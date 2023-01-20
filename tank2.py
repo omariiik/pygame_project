@@ -11,11 +11,9 @@ import time
 class Tank2(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.tank2 = pygame.image.load("data/противник.png").convert_alpha()
-        self.tank2_left = pygame.transform.flip(self.tank2, True, False) # танк перевёрнутый
-        self.image = self.tank2
+        self.image = pygame.image.load("data/противник.png").convert_alpha()
         self.image_copy = self.image
-        self.rect = self.tank2.get_rect()
+        self.rect = self.image.get_rect()
         self.health = 100
         self.damage = 25
         self.rect.x = x
@@ -25,10 +23,10 @@ class Tank2(pygame.sprite.Sprite):
         self.past_click = (0, -1)
         self.x = 0
         self.y = 0
-        self.brain = 'logic'
+        self.brain = 'random'
         self.start_time = time.time()
         self.past_move = 0
-        self.pos = ()
+        self.pos = (x // 65, y // 65)
 
     def update(self, *args):
         if self.x == 1:
@@ -84,6 +82,8 @@ class Tank2(pygame.sprite.Sprite):
             elif self.x == 0 and self.y == 1:
                 self.past_click = (0, 1)
                 self.image = pygame.transform.rotate(self.image_copy, 180)
+                print(self.start_pos[1] - 1, self.start_pos[0])
+
                 if self.number_cell()[1] == 9:
                     self.y = 0
                 elif self.start_pos[1] < 9 and not(map_board[self.start_pos[1] + 1][self.start_pos[0]] == 0):
@@ -116,24 +116,28 @@ class Tank2(pygame.sprite.Sprite):
         if self.number_cell()[1] == 9 and self.past_click[1] == 1:
             return
         if self.past_click[0] == 0 and self.past_click[1] == -1:
-            obj = Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1, 'opponent')
+            obj = Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1, 'opponent', self)
             obj.op_dmg = self.damage
             bullet_group.add(obj)
         if self.past_click[0] == 0 and self.past_click[1] == 1:
-            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1, 'opponent')
+            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1, 'opponent', self)
             obj.op_dmg = self.damage
             obj.image = pygame.transform.rotate(obj.image_copy, 180)
             bullet_group.add(obj)
         if self.past_click[0] == 1 and self.past_click[1] == 0:
-            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0, 'opponent')
+            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0, 'opponent', self)
             obj.op_dmg = self.damage
             obj.image = pygame.transform.rotate(obj.image_copy, -90)
             bullet_group.add(obj)
         if self.past_click[0] == -1 and self.past_click[1] == 0:
-            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0, 'opponent')
+            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0, 'opponent', self)
             obj.op_dmg = self.damage
             obj.image = pygame.transform.rotate(obj.image_copy, 90)
             bullet_group.add(obj)
+
+    def ratio(self, rat):
+        self.health += rat
+        self.damage += rat // 2
 
     def number_cell(self):
         return self.rect.x // 65, self.rect.y // 65

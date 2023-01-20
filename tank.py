@@ -3,6 +3,7 @@ from game_map import map_board
 from sprites_groups import bullet_group
 from bullet import Bullet
 
+
 class Tank(pygame.sprite.Sprite):
     # score_sound = pygame.mixer.Sound(get_path('дорога к звуку'))
     def __init__(self, x, y):
@@ -116,21 +117,19 @@ class Tank(pygame.sprite.Sprite):
         if self.number_cell()[1] == 9 and self.past_click[1] == 1:
             return
         if self.past_click[0] == 0 and self.past_click[1] == -1:
-            bullet_group.add(Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1, 'player'))
+            bullet_group.add(Bullet(self.rect.x + 25, self.rect.y - 15, 0, -1, 'player', self))
         if self.past_click[0] == 0 and self.past_click[1] == 1:
-            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1, 'player')
+            obj = Bullet(self.rect.x + 28, self.rect.y + 50, 0, 1, 'player', self)
             obj.image = pygame.transform.rotate(obj.image_copy, 180)
             bullet_group.add(obj)
         if self.past_click[0] == 1 and self.past_click[1] == 0:
-            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0, 'player')
+            obj = Bullet(self.rect.x + 50, self.rect.y + 25, 1, 0, 'player', self)
             obj.image = pygame.transform.rotate(obj.image_copy, -90)
             bullet_group.add(obj)
         if self.past_click[0] == -1 and self.past_click[1] == 0:
-            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0, 'player')
+            obj = Bullet(self.rect.x - 10, self.rect.y + 25, -1, 0, 'player', self)
             obj.image = pygame.transform.rotate(obj.image_copy, 90)
             bullet_group.add(obj)
-
-
 
     def number_cell(self):
         return self.rect.x // 65, self.rect.y // 65
