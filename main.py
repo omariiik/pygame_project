@@ -26,7 +26,7 @@ if __name__ == '__main__':
     bg = pygame.image.load("data/пол.png")
     board = Board(10, 10)
     game_time = time.time()
-    start_photo = pygame.image.load("data/gameover.png")
+    start_photo = pygame.image.load("data/startt.png")
     end_photo = pygame.image.load("data/end.png")
 
     for i in range(len(map_board)):
@@ -47,13 +47,13 @@ if __name__ == '__main__':
     p = 0
     while running:
         if count == 0:
+            screen.blit(start_photo, (0, 0))
             if p == 0:
                 hay.play()
                 p += 1
                 time.sleep(0.7)
                 pygame.mixer.music.load(marsh)
                 pygame.mixer.music.play(-1)
-            screen.blit(start_photo, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -125,5 +125,5 @@ if __name__ == '__main__':
                 screen.blit(end_photo, (0, 0))
 
 
-            pygame.display.flip()
+        pygame.display.flip()
     pygame.quit()
