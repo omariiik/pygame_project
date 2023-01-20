@@ -17,7 +17,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect.y = y
         self.score = 0
         self.back = False
-        self.health = 100
+        self.health = 25
         self.damage = 25
         self.x = 0
         self.y = 0

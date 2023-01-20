@@ -26,14 +26,7 @@ if __name__ == '__main__':
     board = Board(10, 10)
     game_time = time.time()
     start_photo = pygame.image.load("data/gameover.png")
-    end_photo = pygame.image.load("data/gameover.png")
-    ####################################################
-    level = 3
-    if level == 1:
-        logic = 'random'
-    else:
-        logic = 'logic'
-    start = False
+    end_photo = pygame.image.load("data/end.png")
 
     for i in range(len(map_board)):
         for j in range(len(map_board)):
@@ -47,69 +40,81 @@ if __name__ == '__main__':
                 opponent = Tank2(j * 65, i * 65)
                 opponents_sprites.add(opponent)
 
+    flag = False
+    count = 0
     running = True
     while running:
+        if count == 0:
+            screen.blit(bg, (0, 0))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.KEYDOWN :
+                    if event.key == pygame.K_1:
+                        level = 1
+                        flag = True
+                        logic = 'random'
+                        count += 1
+                    elif event.key == pygame.K_2:
+                        level = 2
+                        flag = True
+                        logic = 'logic'
+                        count += 1
+                    elif event.key == pygame.K_3:
+                        level = 3
+                        flag = True
+                        logic = 'logic'
+                        count += 1
 
-        #получение данных из стартового окна и запись в level
-        #поднять флаг чтобы зайти в нижний if
+
+        if flag == True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        start = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w:
+                        player.move(0, -1, player.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_s:
+                        player.move(0, 1, player.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:
+                        player.move(-1, 0, player.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_d:
+                        player.move(1, 0, player.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        player.shot()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_i:
+                        opponent.move(0, -1, opponent.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_k:
+                        opponent.move(0, 1, opponent.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_j:
+                        opponent.move(-1, 0, opponent.number_cell())
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_l:
+                        opponent.move(1, 0, opponent.number_cell())
+            screen.blit(bg, (0, 0))
+            player_sprite.update()
+            player_sprite.draw(screen)
+            bullet_group.update(player)
+            bullet_group.draw(screen)
+            opponents_sprites.update()
+            opponents_sprites.draw(screen)
+            wall_sprites.draw(screen)
+            for i in opponents_sprites:
+                i.bot_brain()
+            play_client(level)
+            if len(player_sprite.sprites()) == 0:
+                screen.blit(end_photo, (0, 0))
 
 
-
-
-
-
-        #сделать if в котором будет все ниже:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    start = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    player.move(0, -1, player.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_s:
-                    player.move(0, 1, player.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    player.move(-1, 0, player.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_d:
-                    player.move(1, 0, player.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.shot()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_i:
-                    opponent.move(0, -1, opponent.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_k:
-                    opponent.move(0, 1, opponent.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_j:
-                    opponent.move(-1, 0, opponent.number_cell())
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_l:
-                    opponent.move(1, 0, opponent.number_cell())
-        screen.blit(bg, (0, 0))
-        player_sprite.update()
-        player_sprite.draw(screen)
-        bullet_group.update(player)
-        bullet_group.draw(screen)
-        opponents_sprites.update()
-        opponents_sprites.draw(screen)
-        wall_sprites.draw(screen)
-        for i in opponents_sprites:
-            i.bot_brain()
-        play_client(level)
-        if len(player_sprite.sprites()) == 0:
-            pass
-        #if start:
-            #screen.blit(start_photo, (0, 0))
-        #if flag:
-            #screen.blit(end_photo, (0, 0))
-          #  pass
-
-        pygame.display.flip()
+            pygame.display.flip()
     pygame.quit()
