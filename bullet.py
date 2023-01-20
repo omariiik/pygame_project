@@ -3,6 +3,7 @@ from sprites_groups import wall_sprites
 from sprites_groups import opponents_sprites
 from generation_map import map_board
 from sprites_groups import player_sprite
+from music import dead_player, dead_opponent
 from sprites_groups import bullet_group
 
 class Bullet(pygame.sprite.Sprite):
@@ -26,10 +27,12 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, opponents_sprites):
             if self.name == 'player':
                 pygame.sprite.spritecollideany(self, opponents_sprites).health -= player.damage
+                print(pygame.sprite.spritecollideany(self, opponents_sprites).health)
             if pygame.sprite.spritecollideany(self, opponents_sprites).health <= 0:
                 x, y = pygame.sprite.spritecollideany(self, opponents_sprites).pos
                 map_board[x][y] = 0
                 pygame.sprite.spritecollideany(self, opponents_sprites).kill()
+                dead_opponent.play()
             if self.name == 'player' or (self.name == 'opponent' and
                                        not(pygame.sprite.spritecollideany(self, opponents_sprites) is self.dad)):
                 self.kill()
@@ -39,6 +42,7 @@ class Bullet(pygame.sprite.Sprite):
                 self.kill()
             if player.health <= 0:
                 player.kill()
+                dead_player.play()
                 Flag = True
 
 
