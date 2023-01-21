@@ -4,7 +4,8 @@ from sprites_groups import opponents_sprites
 from generation_map import map_board
 from sprites_groups import player_sprite
 from music import dead_player, dead_opponent
-from sprites_groups import bullet_group
+point = [0]
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, px, py, x, y, name, dad):
@@ -20,17 +21,23 @@ class Bullet(pygame.sprite.Sprite):
         self.op_dmg = 0
 
     def update(self, player):
-
+        global point
         if self.rect.x < -65 or self.rect.x > 715 or self.rect.y < -65 or self.rect.y > 715:
             self.kill()
 
         if pygame.sprite.spritecollideany(self, opponents_sprites):
             if self.name == 'player':
                 pygame.sprite.spritecollideany(self, opponents_sprites).health -= player.damage
-                print(pygame.sprite.spritecollideany(self, opponents_sprites).health)
             if pygame.sprite.spritecollideany(self, opponents_sprites).health <= 0:
                 x, y = pygame.sprite.spritecollideany(self, opponents_sprites).pos
                 map_board[x][y] = 0
+                if pygame.sprite.spritecollideany(self, opponents_sprites).type == 'soldier':
+                    if pygame.sprite.spritecollideany(self, opponents_sprites).brain == 'random':
+                        point[0] += 10
+                    else:
+                        point[0] += 20
+                else:
+                    point[0] += 30
                 pygame.sprite.spritecollideany(self, opponents_sprites).kill()
                 dead_opponent.play()
             if self.name == 'player' or (self.name == 'opponent' and
@@ -43,9 +50,6 @@ class Bullet(pygame.sprite.Sprite):
             if player.health <= 0:
                 player.kill()
                 dead_player.play()
-                Flag = True
-
-
         if self.x == 1 or self.x == -1:
             self.rect.x += 2 * self.x
         if self.y == 1 or self.y == -1:
@@ -53,11 +57,3 @@ class Bullet(pygame.sprite.Sprite):
 
         if pygame.sprite.spritecollideany(self, wall_sprites):
             self.kill()
-
-
-
-        # придумать проверку на столкновение нужно
-
-    # def draw(self):
-    #     pygame.draw.circle(screen, 'yellow', (self.px, self.py), 2)
-        # можно не фото взять а рисовать , но замкнутый круг получится

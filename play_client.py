@@ -97,6 +97,7 @@ def play_client(level):
                     obj.image = pygame.image.load("data/БОСС.png").convert_alpha()
                     obj.image_copy = obj.image
                     obj.brain = 'logic'
+                    obj.type = 'boss'
                     obj.health = 200
                     obj.damage = 40
                     obj.ratio(ratio3)

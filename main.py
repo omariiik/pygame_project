@@ -15,7 +15,6 @@ from play_client import play_client
 from music import hay, marsh
 
 
-
 FPS = 30
 SPEED = 20
 
@@ -78,9 +77,6 @@ if __name__ == '__main__':
         screen.blit(start_photo, (0, 0))
         if flag == True:
             pygame.mixer.music.stop()
-            # a = pygame.mixer.Sound('data/mus.ogg')
-            # hay.stop()
-            # a.play()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -126,10 +122,7 @@ if __name__ == '__main__':
                 i.bot_brain()
             play_client(level)
             if len(player_sprite.sprites()) == 0:
-                # a.stop()
                 screen.blit(end_photo, (0, 0))
-                b = pygame.mixer.Sound('data/nocry.ogg')
-                b.play()
 
 
         pygame.display.flip()

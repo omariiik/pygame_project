@@ -95,7 +95,6 @@ class Tank(pygame.sprite.Sprite):
                     map_board[self.start_pos[1] - 1][self.start_pos[0]] = 1
                     map_board[self.start_pos[1]][self.start_pos[0]] = 0
 
-
     def shot(self):
         if self.health <= 0:
             return
@@ -124,7 +123,3 @@ class Tank(pygame.sprite.Sprite):
 
     def number_cell(self):
         return self.rect.x // 65, self.rect.y // 65
-
-    def up_score(self): # рекорд
-        self.score += 1
-        # self.score_sound.play() # звук рекорда (потом сделаем)
